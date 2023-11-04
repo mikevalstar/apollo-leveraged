@@ -37,6 +37,8 @@ function Stateful() {
     Array<{ title: string; id: string; deleted: boolean }>
   >([]);
 
+  //console.log("Stateful Render");
+
   const { error } = useQuery(GET_BOOKS, {
     onCompleted: (data) => {
       if (data?.books) {

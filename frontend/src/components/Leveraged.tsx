@@ -31,12 +31,14 @@ const ADD_DEL = gql`
   }
 `;
 
-function ServerIt() {
+function Leveraged() {
   const [title, setTitle] = useState("");
 
   const { data, error } = useQuery(GET_BOOKS);
   const [addBook] = useMutation(ADD_BOOK);
   const [deleteBook] = useMutation(ADD_DEL);
+
+  //console.log("Leveraged Render");
 
   const deleteClick = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
@@ -109,4 +111,4 @@ function ServerIt() {
   );
 }
 
-export default ServerIt;
+export default Leveraged;

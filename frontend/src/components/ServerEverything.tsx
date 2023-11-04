@@ -38,6 +38,8 @@ function ServerIt() {
   const [addBook] = useMutation(ADD_BOOK);
   const [deleteBook] = useMutation(ADD_DEL);
 
+  //console.log("Server Render");
+
   const deleteClick = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
     deleteBook({
