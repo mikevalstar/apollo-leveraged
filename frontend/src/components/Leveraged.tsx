@@ -31,6 +31,28 @@ const ADD_DEL = gql`
   }
 `;
 
+function addNoteToCache(cache: any, { data }: { data?: any }) {
+  if (data) {
+    cache.modify({
+      fields: {
+        books(existingBooks = []) {
+          const newBookRef = cache.writeFragment({
+            data: data.bookAdd,
+            fragment: gql`
+              fragment NewBook on Book {
+                id
+                title
+                deleted
+              }
+            `,
+          });
+          return [...existingBooks, newBookRef];
+        },
+      },
+    });
+  }
+}
+
 function Leveraged() {
   const [title, setTitle] = useState("");
 
@@ -54,27 +76,7 @@ function Leveraged() {
     e.preventDefault();
     addBook({
       variables: { title },
-      update: (cache, { data }) => {
-        if (data?.bookAdd) {
-          cache.modify({
-            fields: {
-              books(existingBooks = []) {
-                const newBookRef = cache.writeFragment({
-                  data: data.bookAdd,
-                  fragment: gql`
-                    fragment NewBook on Book {
-                      id
-                      title
-                      deleted
-                    }
-                  `,
-                });
-                return [...existingBooks, newBookRef];
-              },
-            },
-          });
-        }
-      },
+      update: addNoteToCache,
       onError: (err) => {
         console.log(err);
       },
